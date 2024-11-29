@@ -6,19 +6,22 @@ import tkinter as tk
 from PIL import Image, ImageTk
 
 # Load the trained model
-model = load_model('sign_language_model.h5')
-labels = ['A', 'B', 'C', 'D', ..., 'Z', 'Space', 'Delete']  # Define your labels
+model = load_model('signlanguagedetectionmodel48x48.h5')
+labels = ['A', 'B', 'C', 'ErriPuvva', 'Delete']  # Define your labels
 
 # Function to predict the sign
 def predict_sign(image, model, labels):
-    image = cv2.resize(image, (64, 64)) / 255.0
-    image = np.expand_dims(image, axis=0)  # Reshape for model input
-    
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  # Convert to grayscale
+    image = cv2.resize(image, (48, 48)) / 255.0
+    image = np.expand_dims(image, axis=-1)  # Add the channel dimension for grayscale (64, 64, 1)
+    image = np.expand_dims(image, axis=0)  # Reshape for model input (1, 64, 64, 1)
+
     predictions = model.predict(image)
     predicted_class = np.argmax(predictions, axis=1)[0]
     predicted_label = labels[predicted_class]
-    
+
     return predicted_label
+
 
 class SignLanguageApp:
     def __init__(self, window, window_title):
