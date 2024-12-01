@@ -60,7 +60,7 @@ while True:
         print(f"Saved: {save_path}")
 
     # Quit on 'q'
-    if interrupt == ord('q'):
+    if interrupt == ord('.'):
         break
 
 cap.release()
